@@ -6,13 +6,18 @@ addons:
   sauce_connect: true
 script:
 - npm run lint
-- polymer test --plugin sauce --job-name "polymer-styles-editor:${TRAVIS_BRANCH}" --build-number=${TRAVIS_BUILD_NUMBER}
+- polymer test --plugin sauce --job-name "polymer-styles-editor:${TRAVIS_BRANCH}"
+  --build-number=${TRAVIS_BUILD_NUMBER}
 cache:
   directories:
   - node_modules
 branches:
   only:
-    - stage
-    - develop
+  - stage
+  - develop
 after_success:
-  - node tasks/ci.js
+- node tasks/ci.js
+env:
+  global:
+  - secure: vS9HOFN+xGNc4wTicLqZAM2VwVxITKPgs9ozJI5dI64lq6hj8m1RXETZ9mcE0/ipAljA03jhA8S37InJIKJuwyhsyHl6I64HOyiCHGcaPZUoDGFdbT6k9dZax/bWyCOOL56HJUZWPJLORg5xV0Ao/qgONdo/VAx8eV0/+72LZ+HQvqtKD2HO2YEYBoPBa/KhS2EWVObh6YhLx2YgKV7jLcRHRpWOUrpeOpsoHVXzjpBZ9c519zPDiek3w+iFe8ArEQYXk0bjh3WHPlZTVZDaQ9Spf9Mv3jsYEPiBVJRFbCiumpBnbwOblOvbobTSkASiKGdAfCixpgETa6e7nNTXGayT/zrvtLFu/Lb9QshDsthooRRiPnvCkAW1saOJYTms1iaMYF4eVIjzh0q+PCcpz4TQdZIQqtQk14U4vQKMyGdJbWWf4ODmHVpOgjL0XOYW2ROswEDut3g2m1Ytqwz6mFG9n6ZeKUgftAowY5emo8XqJXTCzN4msQAEFd3+H5QIDXt+XUaGJ4YqbNV+ZnfGu5RTCYwi+6u1QOzy29Ag2E4/nt1EFf5zTb3xajZPxsOU4qslYrzQ9YnGgKUwzUETZmOSRaku2oLUR960HA6qcBBsnZbUOjD0OYn56IpMIaEU+7UJHBBoX/7foFhOeh+uR6f3Ma1HHxQ5LndO7TFAEQ8=
+  - secure: CjtIOv4xOCAEjMyy4C4LcyYGh1kDFgjqK/mjLE8RexQdIc8Cs31OFl2ust0dKYJRZujQg3AUsOUqUATYjNK9VcVbgCMtcWlOzC4FRdhS50Fq2PY7EwjHV/fckuSNTW0chfGpFnOGlChRZvofHl6MnR25na8cTOxeQUDxmE0JfUmWwPfPYaJhBXtEbN3rDcq+yO2DzpYWDioeYOg+x2MEmenHEu+nv0PbCK5eAATx+oQvIEL0yVyFRQHJb+NlZp3ecPYWRKLFxdL0tXcRUvpP6J/ckpuP6n+Wj1mKW6f/AowgMKaXw/6Q+e3K07P673TYlW5GoMUXk5gK0KwU1vhUjoecvtum4A+QAoq7kb1NwZrHk6b8vE+gGQIal7a5s4wOQxXtFoWbOu7Yf0jfprxY+Ld0IAvpvf7qLT18czArd+wnh+9L162xbuUaS0RtKjWzv73U62T2dB4sQNrNcb3NA9A7yWP8c2HhbQXvmCeXV99n8GhOaxjbkE4zBPGQ44DV+bk2s/AQrSDrcbuAAQIm5VQfUkN8FYm5qA+IqC7qvwQaUSnCT8hA7IlOkB6DTXn2HwBKMH1zr5pItHg8WfysqzBiXtmexeTGSVYg2ckOYn8aMTUJKlgE4cEr6KUGvw/QmJnZWQCtOdIh+m/PiYCbGq/BPne4c7s5TaoSKPLDBPQ=
