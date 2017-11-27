@@ -1,0 +1,166 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+  <title>polymer-styles-editor demo</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../../polymer-styles-analyzer/polymer-styles-analyzer.html">
+  <link rel="import" href="../../paper-styles/typography.html">
+  <link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
+  <link rel="import" href="../../paper-button/paper-button.html">
+  <link rel="import" href="../../paper-input/paper-input.html">
+  <link rel="import" href="../../paper-input/paper-textarea.html">
+  <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+  <link rel="import" href="../../code-mirror/code-mirror.html">
+  <link rel="import" href="../../headers-editor/headers-editor.html">
+
+  <link rel="import" href="../polymer-styles-editor.html">
+  <style is="custom-style">
+  :root {
+    --arc-font-subhead: {
+      @apply --paper-font-subhead;
+    };
+    --arc-font-title: {
+      @apply --paper-font-title;
+    };
+  }
+
+  .container {
+    @apply --layout-horizontal;
+  }
+
+  .page-content {
+    @apply --layout-flex;
+  }
+
+  .editor {
+    width: 640px;
+    margin-left: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    background-color: #f7f7f7;
+  }
+
+  h3 {
+    @apply --paper-font-title;
+    @apply --layout-flex;
+  }
+
+  h4 {
+    @apply --paper-font-subhead;
+  }
+
+  .title-actions {
+    @apply --layout-horizontal;
+    @apply --layout-center;
+  }
+
+  .action-button {
+    background-color: #2196F3;
+    color: white;
+    height: 40px;
+  }
+
+  output {
+    display: block;
+    white-space: pre-wrap;
+  }
+  </style>
+</head>
+<body unresolved>
+  <template is="dom-bind" id="demo">
+    <polymer-styles-analyzer parsed-styles="{{parsedData}}"></polymer-styles-analyzer>
+    <output>[[stylesValue]]</output>
+    <div class="container">
+      <div class="page-content">
+        <h3>Page content</h3>
+        <section class="page-section">
+          <h4>Inputs</h4>
+          <paper-input label="text input"></paper-input>
+          <paper-input label="text input" value="pre-filled"></paper-input>
+          <paper-textarea label="autoresizing textarea input"></paper-textarea>
+          <paper-input label="password input" type="password"></paper-input>
+          <paper-input label="disabled input" disabled value="batman"></paper-input>
+          <paper-input label="input with at most 10 characters" char-counter maxlength="10"></paper-input>
+          <paper-input label="username" id="inputWithButton">
+            <span prefix>Your email</span>
+            <div suffix>@email.com</div>
+          </paper-input>
+        </section>
+
+        <section class="page-section">
+          <h4>Buttons</h4>
+
+          <paper-button>link</paper-button>
+          <paper-button raised>raised</paper-button>
+          <paper-button toggles raised>toggles</paper-button>
+          <paper-button disabled>disabled</paper-button>
+        </section>
+
+        <section class="page-section">
+          <h4>Checkboxes</h4>
+
+          <paper-checkbox>Checkbox</paper-checkbox>
+          <paper-checkbox checked>Checkbox</paper-checkbox>
+          <paper-checkbox disabled>Disabled</paper-checkbox>
+        </section>
+
+        <section class="page-section">
+          <h4>Code mirror</h4>
+
+          <code-mirror mode="javascript">
+          function myScript() {
+          return 100;
+        }
+        </code-mirror>
+        </section>
+
+        <section class="page-section">
+          <h4>ARC headers editor</h4>
+
+          <headers-editor></headers-editor>
+        </section>
+      </div>
+      <div class="editor">
+        <div class="title-actions">
+          <h3>Theme editor</h3>
+          <paper-button on-tap="analyze" class="action-button" hidden$="[[analyzed]]" disabled="[[analyzing]]">Analyze page</paper-button>
+          <paper-button on-tap="generate" class="action-button" hidden$="[[!analyzed]]">Generate style file</paper-button>
+        </div>
+        <polymer-styles-editor parsed-styles="[[parsedData]]"></polymer-styles-editor>
+      </div>
+    </div>
+  </template>
+  <script>
+  (function(demo) {
+    demo.analyzed = false;
+    demo.analyze = function() {
+      demo.analyzing = true;
+      document.querySelector('polymer-styles-analyzer').analyze()
+      .then(() => {
+        demo.analyzed = true;
+        demo.analyzing = false;
+      });
+    };
+    demo.generate = function() {
+      var styles = document.querySelector('polymer-styles-editor').generate();
+      console.log(styles);
+      demo.stylesValue = styles;
+    };
+  })(document.getElementById('demo'));
+  </script>
+</body>
+</html>
